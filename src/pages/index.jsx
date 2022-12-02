@@ -1,3 +1,3 @@
-export { Home } from './Home'
-export { Cart } from './Cart'
-export { NotFound } from './NotFound'
+export { Home } from './Home.component'
+export { Cart } from './Cart.component'
+export { NotFound } from './NotFound.component'
