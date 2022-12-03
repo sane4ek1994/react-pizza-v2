@@ -1,7 +1,6 @@
 import React from 'react'
-import { createContext } from 'react'
 
-export const SearchInputContext = createContext({
+export const SearchInputContext = React.createContext({
   searchValue: '',
   setSearchValue: () => {}
 })
