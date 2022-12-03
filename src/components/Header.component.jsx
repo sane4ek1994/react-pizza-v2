@@ -1,10 +1,14 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { SearchInput } from '../components'
+import { SearchInputContext } from '../context/searchInput.context'
 
 import logoSvg from '../assets/img/pizza-logo.svg'
 
-export function Header({ searchValue, setSearchValue }) {
+export function Header() {
+  const { searchValue, setSearchValue } = React.useContext(SearchInputContext)
+
   return (
     <div className='header'>
       <div className='container'>
