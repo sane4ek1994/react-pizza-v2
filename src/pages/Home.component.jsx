@@ -5,7 +5,6 @@ import { SearchInputContext } from '../context/searchInput.context'
 
 export const Home = () => {
   const { searchValue } = React.useContext(SearchInputContext)
-
   const [items, setItems] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
   const [categoryId, setcategoryId] = React.useState(0)
