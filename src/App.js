@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Header } from './components/index'
-import { Cart, Home, NotFound } from './pages/index'
+import { Cart, Home, NotFound, Authentication } from './pages'
 
 import './scss/app.scss'
 
@@ -13,6 +13,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/auth' element={<Authentication />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </div>

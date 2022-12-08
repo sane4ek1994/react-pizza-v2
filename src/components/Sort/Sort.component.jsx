@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setSort } from '../redux/slices/slice'
+import { setSort } from '../../redux/slices/slice'
 
 export const sortList = [
   { name: 'популярности (DESC)', sortProperty: 'rating' },

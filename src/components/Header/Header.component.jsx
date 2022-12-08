@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { SearchInput } from '../components'
+import { SearchInput } from '../../components'
 
-import logoSvg from '../assets/img/pizza-logo.svg'
+import logoSvg from '../../assets/img/pizza-logo.svg'
 
 export function Header() {
   return (
@@ -47,6 +47,9 @@ export function Header() {
               />
             </svg>
             <span>3</span>
+          </Link>
+          <Link to='/auth'>
+            <button>Authentication</button>
           </Link>
         </div>
       </div>

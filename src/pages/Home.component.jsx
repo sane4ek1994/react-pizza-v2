@@ -8,7 +8,7 @@ import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../component
 
 import { SearchInputContext } from '../context/searchInput.context'
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/slice'
-import { sortList } from '../components/Sort.component'
+import { sortList } from '../components'
 
 export const Home = () => {
   const navigate = useNavigate()
