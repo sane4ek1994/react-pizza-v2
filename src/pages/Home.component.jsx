@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components'
 
 import { SearchInputContext } from '../context/searchInput.context'
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/slice'
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice'
 import { sortList } from '../components'
 
 export const Home = () => {
