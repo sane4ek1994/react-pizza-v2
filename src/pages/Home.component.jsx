@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components'
 
-import { SearchInputContext } from '../context/searchInput.context'
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice'
-import { fetchPizzas } from '../redux/slices/pizzasSlice'
+import { setCategoryId, setCurrentPage, setFilters, selectFilter } from '../redux/slices/filterSlice'
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice'
 import { sortList } from '../components'
 
 export const Home = () => {
@@ -15,9 +14,8 @@ export const Home = () => {
   const dispatch = useDispatch()
   const isMounted = React.useRef(false)
 
-  const { items, status } = useSelector(state => state.pizza)
-  const { categoryId, sort, currentPage } = useSelector(state => state.filter)
-  const { searchValue } = React.useContext(SearchInputContext)
+  const { items, status } = useSelector(selectPizzaData)
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter)
 
   const onChangeCategory = id => dispatch(setCategoryId(id))
   const onChangePage = num => dispatch(setCurrentPage(num))
