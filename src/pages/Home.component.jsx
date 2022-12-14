@@ -1,7 +1,7 @@
 import React from 'react'
 import qs from 'qs'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components'
 
@@ -64,8 +64,12 @@ export const Home = () => {
     getPizzas()
   }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
+  const pizzas = items.map(obj => (
+    <Link key={obj.id} to={`/pizza${obj.id}`}>
+      <PizzaBlock {...obj} />
+    </Link>
+  ))
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-  const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
 
   return (
     <div className='container'>
