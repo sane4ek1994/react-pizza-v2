@@ -1,6 +1,6 @@
-export function Categories({ value, onChangeCategory }) {
-  const categories = ['Всё', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
+const categories = ['Всё', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
+export function Categories({ value, onChangeCategory }) {
   return (
     <div className='categories'>
       <ul>

@@ -11,7 +11,7 @@ export const sortList = [
   { name: 'алфавиту (ASC)', sortProperty: '-title' }
 ]
 
-export function Sort() {
+export const Sort = () => {
   const dispatch = useDispatch()
   const sort = useSelector(selectSort)
   const sortRef = React.useRef()

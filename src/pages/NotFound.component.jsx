@@ -4,7 +4,7 @@ export const NotFound = () => {
   return (
     <>
       <NotFoundBlock />
-      <button>назад</button>
+      <button className='button button--black'>назад</button>
     </>
   )
 }

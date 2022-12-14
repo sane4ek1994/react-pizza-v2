@@ -1,7 +1,7 @@
 import React from 'react'
 import qs from 'qs'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components'
 
@@ -17,74 +17,97 @@ export const Home = () => {
   const { items, status } = useSelector(selectPizzaData)
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter)
 
-  const onChangeCategory = id => dispatch(setCategoryId(id))
-  const onChangePage = num => dispatch(setCurrentPage(num))
+  const onChangeCategory = React.useCallback(idx => {
+    dispatch(setCategoryId(idx))
+  }, [])
 
-  const getPizzas = async () => {
-    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
-    const sortBy = sort.sortProperty.replace('-', '')
-    const category = categoryId > 0 ? `category=${categoryId}` : ''
-    const search = searchValue ? `&search=${searchValue}` : ''
-
-    dispatch(fetchPizzas({ order, sortBy, category, search }))
+  const onChangePage = page => {
+    dispatch(setCurrentPage(page))
   }
 
-  //Если изменили параметры и был первый рендер
+  const getPizzas = async () => {
+    const sortBy = sort.sortProperty.replace('-', '')
+    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
+    const category = categoryId > 0 ? String(categoryId) : ''
+    const search = searchValue
+
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage: String(currentPage)
+      })
+    )
+
+    window.scrollTo(0, 0)
+  }
+
+  // Если изменили параметры и был первый рендер
   React.useEffect(() => {
     if (isMounted.current) {
       const params = {
-        sortProperty: sort.sortProperty,
         categoryId: categoryId > 0 ? categoryId : null,
-        currentPage
+        sortProperty: sort.sortProperty,
+        // костыль
+        currentPage: currentPage === 'NaN' ? currentPage : 1
       }
+
       const queryString = qs.stringify(params, { skipNulls: true })
 
       navigate(`/?${queryString}`)
-
-      if (!window.location.search) {
-        fetchPizzas()
-      }
     }
-  }, [categoryId, sort.sortProperty, currentPage])
 
-  // Если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
+    const params = qs.parse(window.location.search.substring(1))
+    const sortObj = sortList.find(obj => obj.sortProperty === params.sortBy)
+    dispatch(
+      setFilters({
+        searchValue: params.search,
+        categoryId: Number(params.category),
+        currentPage: Number(params.currentPage),
+        sort: sortObj || sortList[0]
+      })
+    )
+
+    getPizzas()
+    isMounted.current = true
+  }, [categoryId, sort.sortProperty, searchValue, currentPage])
+
+  // Парсим параметры при первом рендере
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1))
-
-      const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
-
-      dispatch(setFilters({ ...params, sort }))
+      const sort = sortList.find(obj => obj.sortProperty === params.sortBy)
+      dispatch(
+        setFilters({
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortList[0]
+        })
+      )
     }
+    isMounted.current = true
   }, [])
 
-  //Если был первый рендер, то запрашиваем пиццы
-  React.useEffect(() => {
-    window.scrollTo(0, 0)
-    getPizzas()
-  }, [categoryId, sort.sortProperty, searchValue, currentPage])
-
-  const pizzas = items.map(obj => (
-    <Link key={obj.id} to={`/pizza${obj.id}`}>
-      <PizzaBlock {...obj} />
-    </Link>
-  ))
+  const pizzas = items.map(obj => <PizzaBlock {...obj} />)
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
   return (
     <div className='container'>
       <div className='content__top'>
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       {status === 'error' ? (
         <div className='content__error-info'>
           <h2>Произошла ошибка 😕</h2>
-          <p>Не удалось получить пиццы...</p>
+          <p>К сожалению, не удалось получить питсы. Попробуйте повторить попытку позже.</p>
         </div>
       ) : (
-        <div className='content__items'>{status === 'success' ? skeletons : pizzas}</div>
+        <div className='content__items'>{status === 'loading' ? skeletons : pizzas}</div>
       )}
 
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
