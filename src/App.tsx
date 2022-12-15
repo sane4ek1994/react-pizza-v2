@@ -1,4 +1,3 @@
-import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { MainLayout } from './layout/MainLayout.component'
 import { Cart, Home, NotFound, Authentication, FullPizza } from './pages'
