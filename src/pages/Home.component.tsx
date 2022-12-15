@@ -17,19 +17,14 @@ export const Home: React.FC = () => {
   const { items, status } = useSelector(selectPizzaData)
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter)
 
-  const onChangeCategory = React.useCallback((idx: number) => {
-    dispatch(setCategoryId(idx))
-  }, [])
-
-  const onChangePage = (page: number) => {
-    dispatch(setCurrentPage(page))
-  }
+  const onChangeCategory = (idx: number) => dispatch(setCategoryId(idx))
+  const onChangePage = (page: number) => dispatch(setCurrentPage(page))
 
   const getPizzas = async () => {
     const sortBy = sort.sortProperty.replace('-', '')
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
     const category = categoryId > 0 ? String(categoryId) : ''
-    const search = searchValue
+    const search = searchValue ? `&search=${searchValue}` : ''
 
     dispatch(
       // @ts-ignore
