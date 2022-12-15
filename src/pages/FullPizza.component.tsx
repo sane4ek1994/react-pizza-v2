@@ -3,14 +3,14 @@ import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Skeleton } from '../components'
 
-type pizzaType = {
+type PizzaItem = {
   imageUrl: string
   title: string
   price: number
 }
 
 export const FullPizza: React.FC = () => {
-  const [pizza, setPizza] = React.useState<pizzaType>()
+  const [pizza, setPizza] = React.useState<PizzaItem>()
   const { id } = useParams()
   const navigate = useNavigate()
 

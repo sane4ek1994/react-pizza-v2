@@ -9,7 +9,7 @@ import { setCategoryId, setCurrentPage, setFilters, selectFilter } from '../redu
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice'
 import { sortList } from '../components'
 
-export const Home = () => {
+export const Home: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isMounted = React.useRef(false)
@@ -17,11 +17,11 @@ export const Home = () => {
   const { items, status } = useSelector(selectPizzaData)
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter)
 
-  const onChangeCategory = React.useCallback(idx => {
+  const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx))
   }, [])
 
-  const onChangePage = page => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
 
@@ -32,6 +32,7 @@ export const Home = () => {
     const search = searchValue
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -91,14 +92,14 @@ export const Home = () => {
     isMounted.current = true
   }, [])
 
-  const pizzas = items.map(obj => <PizzaBlock {...obj} />)
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
   return (
     <div className='container'>
       <div className='content__top'>
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort value={sort} />
+        <Sort />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       {status === 'error' ? (

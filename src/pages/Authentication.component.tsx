@@ -1,4 +1,6 @@
-export const Authentication = () => {
+import React from 'react'
+
+export const Authentication: React.FC = () => {
   return (
     <>
       <input type='number' />
